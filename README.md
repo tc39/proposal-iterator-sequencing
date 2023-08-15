@@ -51,6 +51,7 @@ We should explore how to make this more ergonomic and functional.
 - add `Iterator.of` for lifting immediate values to an iterator
   - `Iterator.of(as, bs, cs).flatMap(x => x)`
   - add `Iterator.prototype.flat` to eliminate the identity function
+  - is it actually that much better than `[as, bs, cs].values()`?
 - do we close iterators that haven't been consumed when the result iterator is closed?
 
 ## prior art
