@@ -3,7 +3,7 @@ Iterator Sequencing
 
 A TC39 proposal to create iterators by sequencing existing iterators.
 
-**Stage:** 0
+**Stage:** 1
 
 ## motivation
 
