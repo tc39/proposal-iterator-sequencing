@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "name": "proposal-iterator-sequencing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tc39/proposal-iterator-sequencing.git"
+  },
+  "author": "Michael Ficarra",
+  "bugs": {
+    "url": "https://github.com/tc39/proposal-iterator-sequencing/issues"
+  },
+  "homepage": "https://github.com/tc39/proposal-iterator-sequencing#readme",
+  "devDependencies": {
+    "typescript": "5.2.2"
+  }
+}
