@@ -52,7 +52,7 @@ function fromImpl<A, B, C, D, E>(iteratorA: IteratorOrIterable<A>, iteratorB: It
 function fromImpl(...iterators: Array<IteratorOrIterable<unknown>>): Generator<unknown>
 function* fromImpl(...iterators: Array<unknown>): Generator<unknown> {
   for (const iter of iterators) {
-    yield* liftIterator(getIteratorFlattenable(iter, 'reject-strings'));
+    yield* liftIterator(getIteratorFlattenable(iter, 'iterate-strings'));
   }
 }
 
