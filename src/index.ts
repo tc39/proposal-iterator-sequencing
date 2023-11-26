@@ -4,6 +4,8 @@ if (typeof Iterator === 'undefined' || Iterator == null) {
   globalThis.Iterator = function() {};
 }
 
+const IteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf([].values()))
+
 function getIteratorFlattenable<A>(obj: IteratorOrIterable<A>, stringHandling: 'iterate-strings' | 'reject-strings'): Iterator<A>
 function getIteratorFlattenable(obj: any, stringHandling: 'iterate-strings' | 'reject-strings'): Iterator<unknown>
 function getIteratorFlattenable(obj: any, stringHandling: 'iterate-strings' | 'reject-strings'): Iterator<unknown> {
@@ -54,9 +56,15 @@ function* fromImpl(...iterators: Array<unknown>): Generator<unknown> {
   }
 }
 
+function flatImpl<A>(this: Iterator<A>): Generator<A>
+function* flatImpl(this: unknown): Generator<unknown> {
+  for (const iter of liftIterator(this as Iterator<unknown>)) {
+    yield* liftIterator(getIteratorFlattenable(iter, 'reject-strings'));
+  }
+}
+
 // NOTE: this line makes concat non-constructible, and gives it the appropriate name and length
 const concat = (iterators: IteratorOrIterable<IteratorOrIterable<unknown>>) => concatImpl(iterators);
-
 Object.defineProperty(Iterator, 'concat', {
   configurable: true,
   writable: true,
@@ -66,10 +74,16 @@ Object.defineProperty(Iterator, 'concat', {
 
 // NOTE: this line makes from non-constructible, and gives it the appropriate name and length
 const from = (...iterators: Array<IteratorOrIterable<unknown>>) => fromImpl(...iterators);
-
 Object.defineProperty(Iterator, 'from', {
   configurable: true,
   writable: true,
   enumerable: false,
   value: from,
+});
+
+Object.defineProperty(IteratorPrototype, 'flat', {
+  configurable: true,
+  writable: true,
+  enumerable: false,
+  value: flatImpl,
 });
