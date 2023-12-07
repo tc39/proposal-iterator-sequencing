@@ -22,19 +22,19 @@ location: https://tc39.es/proposal-iterator-sequencing/
       1. Return _wrapper_.
     1. Let _closure_ be a new Abstract Closure with no parameters that captures _items_ and performs the following steps when called:
       1. Repeat, while _items_ is not empty,
-        1. Let _value_ be the first element of _items_.
+        1. Let _iter_ be the first element of _items_.
         1. Remove the first element from _items_.
-        1. Let _iter_ be ? GetIteratorFlattenable(_value_, ~iterate-strings~).
+        1. Let _iteratorRecord_ be ? GetIteratorFlattenable(_iter_, ~iterate-strings~).
         1. Let _innerAlive_ be *true*.
         1. Repeat, while _innerAlive_ is *true*,
-          1. Let _innerNext_ be ? IteratorStep(_iter_).
+          1. Let _innerNext_ be ? IteratorStep(_iteratorRecord_).
           1. If _innerNext_ is *false*, then
             1. Set _innerAlive_ to *false*.
           1. Else,
             1. Let _innerValue_ be ? IteratorValue(_innerNext_).
             1. Let _completion_ be Completion(Yield(_innerValue_)).
             1. If _completion_ is an abrupt completion, then
-              1. Return ? IteratorClose(_iter_, _completion_).
+              1. Return ? IteratorClose(_iteratorRecord_, _completion_).
     1. Return CreateIteratorFromClosure(_closure_, *"Iterator Helper"*, %IteratorHelperPrototype%, « »).
   </emu-alg>
 </emu-clause>
