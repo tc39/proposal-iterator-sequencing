@@ -6,6 +6,7 @@ status: proposal
 stage: 1
 contributors: Michael Ficarra
 location: https://tc39.es/proposal-iterator-sequencing/
+copyright: false
 </pre>
 
 <emu-clause id="sec-iterator.from">
