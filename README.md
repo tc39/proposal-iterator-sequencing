@@ -40,7 +40,24 @@ Array.from(digits); // [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 We should explore how to make this more ergonomic and functional.
 
-## design space
+## chosen solution
+
+A combination of variadic `Iterator.from` and `Iterator.prototype.flat`.
+
+```js
+let digits = Iterator.from(lows, [4, 5], highs);
+```
+
+```js
+function* p() {
+  for (let n = 1;; ++n) {
+    yield Array(n).fill(n);
+  }
+}
+let repeatedNats = p().flat();
+```
+
+## considered design space
 
 - make `Iterator.from` variadic
   - `Iterator.from(as, bs, cs)`
@@ -52,6 +69,8 @@ We should explore how to make this more ergonomic and functional.
   - `Iterator.of(as, bs, cs).flatMap(x => x)`
   - add `Iterator.prototype.flat` to eliminate the identity function
   - is it actually that much better than `[as, bs, cs].values()`?
+- add `Iterator.concat(xs)`
+  - short for `Iterator.from(x).flat()`
 - do we close iterators that haven't been consumed when the result iterator is closed?
 
 ## prior art
