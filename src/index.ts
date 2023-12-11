@@ -34,13 +34,13 @@ function liftIterator<A>(iter: Iterator<A>): Iterable<A> {
   return { [Symbol.iterator]() { return iter; } };
 }
 
-function concatImpl<A>(iterators: IteratorOrIterable<IteratorOrIterable<A>>): Generator<A>
-function concatImpl(iterators: IteratorOrIterable<IteratorOrIterable<unknown>>): Generator<unknown>
-function* concatImpl(iterators: unknown): Generator<unknown> {
-  for (const iter of liftIterator(getIteratorFlattenable(iterators, 'reject-strings'))) {
-    yield* liftIterator(getIteratorFlattenable(iter, 'reject-strings'));
-  }
-}
+// function concatImpl<A>(iterators: IteratorOrIterable<IteratorOrIterable<A>>): Generator<A>
+// function concatImpl(iterators: IteratorOrIterable<IteratorOrIterable<unknown>>): Generator<unknown>
+// function* concatImpl(iterators: unknown): Generator<unknown> {
+//   for (const iter of liftIterator(getIteratorFlattenable(iterators, 'reject-strings'))) {
+//     yield* liftIterator(getIteratorFlattenable(iter, 'reject-strings'));
+//   }
+// }
 
 function fromImpl<A>(...iterators: Array<IteratorOrIterable<A>>): Generator<A>
 function fromImpl(): Generator<never>
@@ -64,13 +64,13 @@ function* flatImpl(this: unknown): Generator<unknown> {
 }
 
 // NOTE: this line makes concat non-constructible, and gives it the appropriate name and length
-const concat = (iterators: IteratorOrIterable<IteratorOrIterable<unknown>>) => concatImpl(iterators);
-Object.defineProperty(Iterator, 'concat', {
-  configurable: true,
-  writable: true,
-  enumerable: false,
-  value: concat,
-});
+// const concat = (iterators: IteratorOrIterable<IteratorOrIterable<unknown>>) => concatImpl(iterators);
+// Object.defineProperty(Iterator, 'concat', {
+//   configurable: true,
+//   writable: true,
+//   enumerable: false,
+//   value: concat,
+// });
 
 // NOTE: this line makes from non-constructible, and gives it the appropriate name and length
 const from = (...iterators: Array<IteratorOrIterable<unknown>>) => fromImpl(...iterators);
