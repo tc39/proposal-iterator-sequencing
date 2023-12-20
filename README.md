@@ -42,6 +42,8 @@ We should explore how to make this more ergonomic and functional.
 
 ## chosen solution
 
+See the [November 2023 presentation to committee](https://docs.google.com/presentation/d/1wMUfikXIIz7woLN-5MbYbW8an40c8ZPrN1ehzWVf4zw).
+
 A combination of variadic `Iterator.from` and `Iterator.prototype.flat`.
 
 ```js
