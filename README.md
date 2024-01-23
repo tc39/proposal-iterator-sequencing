@@ -102,4 +102,5 @@ let repeatedNats = p().flat();
 | itertools-ts               |                            | `chain`       |
 | lodash                     |                            | `flatten`     |
 | ramda                      | `concat`                   | `unnest`      |
+| sequency                   | `plus`                     |               |
 | wu                         |                            | `chain`       |
