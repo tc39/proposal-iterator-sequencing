@@ -1552,5 +1552,5 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let sdoMap = JSON.parse(`{}`);
-let biblio = JSON.parse(`{"refsByClause":{},"entries":[{"type":"clause","id":"sec-iterator.from","title":"Iterator.from ( ...items )","titleHTML":"Iterator.from ( ...<var>items</var> )","number":"1"},{"type":"clause","id":"sec-iteratorprototype.flat","titleHTML":"Iterator.prototype.flat ( )","number":"2"}]}`);
+let biblio = JSON.parse(`{"refsByClause":{},"entries":[{"type":"clause","id":"sec-iterator.concat","title":"Iterator.concat ( ...items )","titleHTML":"Iterator.concat ( ...<var>items</var> )","number":"1"}]}`);
 ;let usesMultipage = false
