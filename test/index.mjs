@@ -2,73 +2,57 @@ import { test } from 'node:test';
 import * as assert from 'node:assert/strict';
 import '../lib/index.js';
 
-// test('concat', async t => {
-//   assert.deepEqual(
-//     Array.from(Iterator.concat([])),
-//     [],
-//   );
-//   assert.deepEqual(
-//     Array.from(Iterator.concat([
-//       [0, 1, 2],
-//     ])),
-//     [0, 1, 2],
-//   );
-//   assert.deepEqual(
-//     Array.from(Iterator.concat([
-//       [0, 1, 2],
-//       [3, 4, 5],
-//     ])),
-//     [0, 1, 2, 3, 4, 5],
-//   );
-// });
-
-test('from', async t => {
+test('concat', async t => {
   assert.deepEqual(
-    Array.from(Iterator.from()),
+    Array.from(Iterator.concat()),
     [],
   );
   assert.deepEqual(
-    Array.from(Iterator.from(
+    Array.from(Iterator.concat(
       [0, 1, 2],
     )),
     [0, 1, 2],
   );
   assert.deepEqual(
-    Array.from(Iterator.from(
+    Array.from(Iterator.concat(
       [0, 1, 2],
       [3, 4, 5],
     )),
     [0, 1, 2, 3, 4, 5],
   );
+  assert.deepEqual(
+    Array.from(Iterator.concat(
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+    )),
+    [0, 1, 2, 3, 4, 5, 6, 7, 8],
+  );
 });
 
-function* p(n) {
-  for (let count = n; count > 0; --count) {
-    yield n;
-  }
-}
-
-function* nats() {
-  let n = 0;
-  while (true) {
-    yield n;
-    ++n;
-  }
-}
-
-function* take(n, iter) {
-  for (let count = 0; count < n; ++count) {
-    let result = iter.next();
-    if (result.done) break;
-    yield result.value;
-  }
-}
-
-test('flat', async t => {
+test('concat iterates strings', async t => {
   assert.deepEqual(
-    Array.from(take(10, [
-      p(3), p(0), p(1), nats()
-    ].values().flat())),
-    [3, 3, 3, 1, 0, 1, 2, 3, 4, 5],
+    Array.from(Iterator.concat("ab", "cd")),
+    ["a", "b", "c", "d"],
+  );
+});
+
+test('concat bare iterators', async t => {
+  let count = 0;
+  const iter = {
+    next() {
+      if (count < 6) {
+        return { done: false, value: count++ };
+      } else {
+        return { done: true };
+      }
+    },
+  };
+  assert.deepEqual(
+    Array.from(Iterator.concat(
+      iter,
+      iter,
+    )),
+    [0, 1, 2, 3, 4, 5],
   );
 });
