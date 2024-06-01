@@ -1,6 +1,35 @@
 <!doctype html>
 <head><meta charset="utf-8">
-<title>Iterator Sequencing</title><script src="ecmarkup.js?cache=iUUAaZmt" defer=""></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/base16/solarized-light.min.css"><link rel="stylesheet" href="ecmarkup.css"></head><body><div id="shortcuts-help">
+<title>Iterator Sequencing</title><script src="ecmarkup.js?cache=Umql2wyl" defer=""></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.0.1/styles/base16/solarized-light.min.css"><link rel="stylesheet" href="ecmarkup.css"><link rel="stylesheet" href="print.css" media="print"><style>
+    @media print {
+      @page :left {
+        @bottom-right {
+          content: '© Ecma International 2024';
+        }
+      }
+      @page :right {
+        @bottom-left {
+          content: '© Ecma International 2024';
+        }
+      }
+      @page :first {
+        @bottom-left {
+          content: '';
+        }
+        @bottom-right {
+          content: '';
+        }
+      }
+      @page :blank {
+        @bottom-left {
+          content: '';
+        }
+        @bottom-right {
+          content: '';
+        }
+      }
+    }
+    </style></head><body><div id="shortcuts-help">
 <ul>
   <li><span>Toggle shortcuts help</span><code>?</code></li>
   <li><span>Toggle "can call user code" annotations</span><code>u</code></li>
@@ -8,10 +37,10 @@
   <li><span>Jump to search box</span><code>/</code></li>
   <li><span>Toggle pinning of the current clause</span><code>p</code></li>
   <li><span>Jump to <i>n</i>th pin</span><code>1-9</code></li>
-</ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120">
+</ul></div><div id="menu-toggle"><svg xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%; stroke:currentColor" viewBox="0 0 120 120" width="54" height="54">
       <title>Menu</title>
       <path stroke-width="10" stroke-linecap="round" d="M30,60 h60  M30,30 m0,5 h60  M30,90 m0,-5 h60"></path>
-    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins<button class="unpin-all">clear</button></div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-iterator.concat" title="Iterator.concat ( ...items )"><span class="secnum">1</span> Iterator.concat ( ...<var>items</var> )</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / May 31, 2024</h1><h1 class="title">Iterator Sequencing</h1>
+    </svg></div><div id="menu-spacer" class="menu-spacer"></div><div id="menu"><div id="menu-search"><input type="text" id="menu-search-box" placeholder="Search..."><div id="menu-search-results" class="inactive"></div></div><div id="menu-pins"><div class="menu-pane-header">Pins<button class="unpin-all">clear</button></div><ul id="menu-pins-list"></ul></div><div class="menu-pane-header">Table of Contents</div><div id="menu-toc"><ol class="toc"><li><span class="item-toggle-none"></span><a href="#sec-iterator.concat" title="Iterator.concat ( ...items )"><span class="secnum">1</span> Iterator.concat ( ...<var>items</var> )</a></li></ol></div></div><div id="spec-container"><h1 class="version">Stage 1 Draft / June 1, 2024</h1><h1 class="title">Iterator Sequencing</h1>
 
 <emu-clause id="sec-iterator.concat">
   <h1><span class="secnum">1</span> Iterator.concat ( ...<var>items</var> )</h1>
