@@ -40,8 +40,31 @@ function concatImpl<A, B, C, D>(iteratorA: IteratorOrIterable<A>, iteratorB: Ite
 function concatImpl<A, B, C, D, E>(iteratorA: IteratorOrIterable<A>, iteratorB: IteratorOrIterable<B>, iteratorC: IteratorOrIterable<C>, iteratorD: IteratorOrIterable<D>, iteratorE: IteratorOrIterable<E>): Generator<A | B | C | D | E>
 function concatImpl(...iterators: Array<IteratorOrIterable<unknown>>): Generator<unknown>
 function* concatImpl(...iterators: Array<unknown>): Generator<unknown> {
-  for (const iter of iterators) {
-    yield* liftIterator(getIteratorFlattenable(iter, 'iterate-strings'));
+  let i = 0;
+  try {
+    for (; i < iterators.length; ++i) {
+      let iter = iterators[i];
+      yield* liftIterator(getIteratorFlattenable(iter, 'iterate-strings'));
+    }
+  } finally {
+    let err = null, hasErr = false;;
+    for (++i; i < iterators.length; ++i) {
+      try {
+        let obj = iterators[i];
+        if (obj != null && (typeof obj === 'object' || typeof obj === 'function')) {
+          let iter = obj as Iterator<unknown>;
+          if (typeof iter.next === 'function') {
+            iter.return?.();
+          }
+        }
+      } catch (e) {
+        if (!hasErr) {
+          hasErr = true;
+          err = e;
+        }
+      }
+    }
+    if (hasErr) throw err;
   }
 }
 
