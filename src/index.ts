@@ -31,12 +31,6 @@ function liftIterator<A>(iter: Iterator<A>): Iterable<A> {
   return { [Symbol.iterator]() { return iter; } };
 }
 
-function isCloseableIterator(obj: any): obj is { return(): IteratorResult<void> } {
-  return obj != null &&
-    (typeof obj === 'object' || typeof obj === 'function') &&
-    typeof obj.next === 'function' && typeof obj.return === 'function';
-}
-
 function concatImpl<A>(...iterators: Array<IteratorOrIterable<A>>): Generator<A>
 function concatImpl(): Generator<never>
 function concatImpl<A>(iteratorA: IteratorOrIterable<A>): Generator<A>
@@ -53,12 +47,24 @@ function* concatImpl(...iterators: Array<unknown>): Generator<unknown> {
       yield* liftIterator(getIteratorFlattenable(iter, 'iterate-strings'));
     }
   } finally {
+    let err = null, hasErr = false;;
     for (++i; i < iterators.length; ++i) {
-      let iter = iterators[i];
-      if (isCloseableIterator(iter)) {
-        iter.return();
+      try {
+        let obj = iterators[i];
+        if (obj != null && (typeof obj === 'object' || typeof obj === 'function')) {
+          let iter = obj as Iterator<unknown>;
+          if (typeof iter.next === 'function') {
+            iter.return?.();
+          }
+        }
+      } catch (e) {
+        if (!hasErr) {
+          hasErr = true;
+          err = e;
+        }
       }
     }
+    if (hasErr) throw err;
   }
 }
 
