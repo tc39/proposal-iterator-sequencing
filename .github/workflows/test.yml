@@ -1,13 +1,9 @@
-name: Build spec
+name: Run tests
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
+on: [pull_request]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,5 +13,7 @@ jobs:
         node-version: 22
     - name: install dependencies
       run: npm ci
-    - name: build spec
-      run: npm run spec
+    - name: build
+      run: npm run build
+    - name: test
+      run: npm test
