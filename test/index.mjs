@@ -30,10 +30,11 @@ test('concat', async t => {
   );
 });
 
-test('concat iterates strings', async t => {
-  assert.deepEqual(
-    Array.from(Iterator.concat("ab", "cd")),
-    ["a", "b", "c", "d"],
+test('concat does not iterate strings', async t => {
+  let it = Iterator.concat("ab", "cd");
+  assert.throws(
+    () => Array.from(it),
+    TypeError,
   );
 });
 

@@ -4,8 +4,6 @@ if (typeof Iterator === 'undefined' || Iterator == null) {
   globalThis.Iterator = function() {};
 }
 
-const IteratorPrototype = Object.getPrototypeOf(Object.getPrototypeOf([].values()))
-
 function getIteratorFlattenable<A>(obj: IteratorOrIterable<A>, stringHandling: 'iterate-strings' | 'reject-strings'): Iterator<A>
 function getIteratorFlattenable(obj: any, stringHandling: 'iterate-strings' | 'reject-strings'): Iterator<unknown>
 function getIteratorFlattenable(obj: any, stringHandling: 'iterate-strings' | 'reject-strings'): Iterator<unknown> {
@@ -44,10 +42,10 @@ function* concatImpl(...iterators: Array<unknown>): Generator<unknown> {
   try {
     for (; i < iterators.length; ++i) {
       let iter = iterators[i];
-      yield* liftIterator(getIteratorFlattenable(iter, 'iterate-strings'));
+      yield* liftIterator(getIteratorFlattenable(iter, 'reject-strings'));
     }
   } finally {
-    let err = null, hasErr = false;;
+    let err = null, hasErr = false;
     for (++i; i < iterators.length; ++i) {
       try {
         let obj = iterators[i];
