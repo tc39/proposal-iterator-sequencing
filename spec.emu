@@ -16,7 +16,7 @@ copyright: false
       1. Repeat, while _items_ is not empty,
         1. Let _iter_ be the first element of _items_.
         1. Remove the first element from _items_.
-        1. Let _iteratorRecord_ be ? GetIteratorFlattenable(_iter_, ~iterate-strings~).
+        1. Let _iteratorRecord_ be ? GetIteratorFlattenable(_iter_, ~reject-strings~).
         1. Let _innerAlive_ be *true*.
         1. Repeat, while _innerAlive_ is *true*,
           1. Let _innerValue_ be ? IteratorStepValue(_iteratorRecord_).
