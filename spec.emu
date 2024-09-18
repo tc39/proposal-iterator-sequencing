@@ -39,6 +39,7 @@ copyright: false
                       1. Let _record_ be the Iterator Record { [[Iterator]]: _iter_, [[NextMethod]]: _nextMethod_, [[Done]]: true }.
                       1. Set _completion_ to Completion(IteratorClose(_iteratorRecord_, _completion_)).
               1. Return ? _completion_.
+      1. Return NormalCompletion(~unused~).
     1. Return CreateIteratorFromClosure(_closure_, *"Iterator Helper"*, %IteratorHelperPrototype%, « »).
   </emu-alg>
 </emu-clause>
