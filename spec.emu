@@ -30,7 +30,7 @@ copyright: false
                 1. Let _trailingIter_ be the first element of _items_.
                 1. Remove the first element from _items_.
                 1. If _trailingIter_ is an Object, then
-                  1. Let _nextMethod_ be Completion(Get(_trailingIter_, "next")).
+                  1. Let _nextMethod_ be Completion(Get(_trailingIter_, *"next"*)).
                   1. If _nextMethod_ is an abrupt completion, then
                     1. If _completion_ is not a throw completion, set _completion_ to _nextMethod_.
                   1. Else,
