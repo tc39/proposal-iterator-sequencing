@@ -5,6 +5,16 @@ A TC39 proposal to create iterators by sequencing existing iterators.
 
 **Stage:** 2
 
+**Champion:** Michael Ficarra
+
+## presentations to committee
+
+- [October 2024](https://docs.google.com/presentation/d/1Z5Bz_4xpwRX7tjwmrMakrj3_II8Qy40fnAq-TrPdt0U)
+- [June 2024](https://docs.google.com/presentation/d/1gOs4UDAcaIF6Dc9z1qXus-ljizrRTSty5O-GbcM9NTs)
+- [January 2024](https://docs.google.com/presentation/d/1KhdGLNXOxWFEg3EhDDv9P-dkLxPKBTuI0EkEUc_fdNA)
+- [November 2023](https://docs.google.com/presentation/d/1wMUfikXIIz7woLN-5MbYbW8an40c8ZPrN1ehzWVf4zw)
+- [September 2023](https://docs.google.com/presentation/d/1myebbwYiacqh419Vi2-EjtcQcaWpyMlZ8lbayi5OAZs)
+
 ## motivation
 
 Often you have 2 or more iterators, the values of which you would like to
@@ -42,11 +52,11 @@ We should explore how to make this more ergonomic and functional.
 
 ## chosen solution
 
-See the [June 2024 presentation to committee](https://docs.google.com/presentation/d/1gOs4UDAcaIF6Dc9z1qXus-ljizrRTSty5O-GbcM9NTs).
-
 ```js
 let digits = Iterator.concat(lows, [4, 5], highs);
 ```
+
+For the (rare) case of infinite iterators of iterators, use `flatMap` with the identity function.
 
 ```js
 function* p() {
@@ -56,22 +66,6 @@ function* p() {
 }
 let repeatedNats = p().flatMap(x => x);
 ```
-
-## considered design space
-
-- make `Iterator.from` variadic
-  - `Iterator.from(as, bs, cs)`
-- add `Iterator.prototype.concat`/`append`/`chain`
-  - `as.concat(bs).concat(cs)`
-  - have to already have an iterator for this
-  - `concat` may make some people think that it accepts non-iterators, as analogue to `Array.prototype`
-- add `Iterator.of` for lifting immediate values to an iterator
-  - `Iterator.of(as, bs, cs).flatMap(x => x)`
-  - add `Iterator.prototype.flat` to eliminate the identity function
-  - is it actually that much better than `[as, bs, cs].values()`?
-- add `Iterator.concat(xs)`
-  - short for `Iterator.from(x).flat()`
-- do we close iterators that haven't been consumed when the result iterator is closed?
 
 ## prior art
 
