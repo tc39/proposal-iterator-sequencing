@@ -5,7 +5,7 @@ A TC39 proposal to create iterators by sequencing existing iterators.
 
 **Stage:** 2
 
-**Champion:** Michael Ficarra
+**Specification:** https://tc39.es/proposal-iterator-sequencing/
 
 ## presentations to committee
 
