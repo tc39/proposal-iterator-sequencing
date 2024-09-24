@@ -12,11 +12,13 @@ copyright: false
 <emu-clause id="sec-iterator.concat">
   <h1>Iterator.concat ( ..._items_ )</h1>
   <emu-alg>
-    1. Let _closure_ be a new Abstract Closure with no parameters that captures _items_ and performs the following steps when called:
-      1. Repeat, while _items_ is not empty,
-        1. Let _iter_ be the first element of _items_.
-        1. Remove the first element from _items_.
-        1. Let _iteratorRecord_ be ? GetIteratorFlattenable(_iter_, ~reject-strings~).
+    1. Let _iteratorRecords_ be a new empty List.
+    1. For each element _item_ of _items_, do
+      1. Append ? GetIteratorFlattenable(_item_, ~reject-strings~) to _iteratorRecords_.
+    1. Let _closure_ be a new Abstract Closure with no parameters that captures _iteratorRecords_ and performs the following steps when called:
+      1. Repeat, while _iteratorRecords_ is not empty,
+        1. Let _iteratorRecord_ be the first element of _iteratorRecords_.
+        1. Remove the first element from _iteratorRecords_.
         1. Let _innerAlive_ be *true*.
         1. Repeat, while _innerAlive_ is *true*,
           1. Let _innerValue_ be ? IteratorStepValue(_iteratorRecord_).
@@ -26,18 +28,8 @@ copyright: false
             1. Let _completion_ be Completion(Yield(_innerValue_)).
             1. If _completion_ is an abrupt completion, then
               1. Set _completion_ to Completion(IteratorClose(_iteratorRecord_, _completion_)).
-              1. Repeat, while _items_ is not empty,
-                1. Let _trailingIter_ be the first element of _items_.
-                1. Remove the first element from _items_.
-                1. If _trailingIter_ is an Object, then
-                  1. Let _nextMethod_ be Completion(Get(_trailingIter_, *"next"*)).
-                  1. If _nextMethod_ is an abrupt completion, then
-                    1. If _completion_ is not a throw completion, set _completion_ to _nextMethod_.
-                  1. Else,
-                    1. Set _nextMethod_ to ! _nextMethod_.
-                    1. If IsCallable(_nextMethod_), then
-                      1. Let _record_ be the Iterator Record { [[Iterator]]: _iter_, [[NextMethod]]: _nextMethod_, [[Done]]: true }.
-                      1. Set _completion_ to Completion(IteratorClose(_iteratorRecord_, _completion_)).
+              1. For each element _trailingIter_ of _iteratorRecords_, do
+                1. Set _completion_ to Completion(IteratorClose(_trailingIter_, _completion_)).
               1. Return ? _completion_.
       1. Return ReturnCompletion(*undefined*).
     1. Return CreateIteratorFromClosure(_closure_, *"Iterator Helper"*, %IteratorHelperPrototype%, « »).
