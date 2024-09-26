@@ -14,11 +14,23 @@ copyright: false
   <emu-alg>
     1. Let _iteratorRecords_ be a new empty List.
     1. For each element _item_ of _items_, do
-      1. Append ? GetIteratorFlattenable(_item_, ~reject-strings~) to _iteratorRecords_.
+      1. If _item_ is not an Object, throw a *TypeError* exception.
+      1. Let _method_ be ? GetMethod(_item_, %Symbol.iterator%).
+      1. If _method_ is *undefined*, then
+        1. Let _openIteratorRecord_ be ? GetIteratorDirect(_item_).
+        1. Append the Record { [[kind]]: ~iterator~, [[record]]: _openIteratorRecord_ } to _iteratorRecords_.
+      1. Else,
+        1. Append the Record { [[kind]]: ~iterable~, [[method]]: _method_, [[obj]]: _item } to _iteratorRecords_.
     1. Let _closure_ be a new Abstract Closure with no parameters that captures _iteratorRecords_ and performs the following steps when called:
       1. Repeat, while _iteratorRecords_ is not empty,
-        1. Let _iteratorRecord_ be the first element of _iteratorRecords_.
+        1. Let _desc_ be the first element of _iteratorRecords_.
         1. Remove the first element from _iteratorRecords_.
+        1. If _desc_.[[kind]] is ~iterator~, then
+          1. Let _iteratorRecord_ be _desc_.[[record]].
+        1. Else,
+          1. Let _obj_ be ? Call(_desc_.[[method]], _desc_.[[obj]]).
+          1. If _obj_ is not an Object, throw a *TypeError* exception.
+          1. Let _iteratorRecord_ be ? GetIteratorDirect(_obj_).
         1. Let _innerAlive_ be *true*.
         1. Repeat, while _innerAlive_ is *true*,
           1. Let _innerValue_ be ? IteratorStepValue(_iteratorRecord_).
@@ -29,7 +41,8 @@ copyright: false
             1. If _completion_ is an abrupt completion, then
               1. Set _completion_ to Completion(IteratorClose(_iteratorRecord_, _completion_)).
               1. For each element _trailingIter_ of _iteratorRecords_, do
-                1. Set _completion_ to Completion(IteratorClose(_trailingIter_, _completion_)).
+                1. If _trailingIter_.[[kind]] is ~iterator~, then
+                  1. Set _completion_ to Completion(IteratorClose(_trailingIter_.[[record]], _completion_)).
               1. Return ? _completion_.
       1. Return ReturnCompletion(*undefined*).
     1. Return CreateIteratorFromClosure(_closure_, *"Iterator Helper"*, %IteratorHelperPrototype%, « »).
