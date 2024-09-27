@@ -16,20 +16,15 @@ copyright: false
     1. For each element _item_ of _items_, do
       1. If _item_ is not an Object, throw a *TypeError* exception.
       1. Let _method_ be ? GetMethod(_item_, %Symbol.iterator%).
-      1. If _method_ is *undefined*, then
-        1. Append ? GetIteratorDirect(_item_) to _iteratorRecords_.
-      1. Else,
-        1. Append the Record { [[OpenMethod]]: _method_, [[Iterable]]: _item_ } to _iteratorRecords_.
+      1. If _method_ is *undefined*, throw a *TypeError* exception.
+      1. Append the Record { [[OpenMethod]]: _method_, [[Iterable]]: _item_ } to _iteratorRecords_.
     1. Let _closure_ be a new Abstract Closure with no parameters that captures _iteratorRecords_ and performs the following steps when called:
       1. Repeat, while _iteratorRecords_ is not empty,
         1. Let _desc_ be the first element of _iteratorRecords_.
         1. Remove the first element from _iteratorRecords_.
-        1. If _desc_ is an Iterator Record, then
-          1. Let _iteratorRecord_ be _desc_.
-        1. Else,
-          1. Let _iter_ be ? Call(_desc_.[[OpenMethod]], _desc_.[[Iterable]]).
-          1. If _iter_ is not an Object, throw a *TypeError* exception.
-          1. Let _iteratorRecord_ be ? GetIteratorDirect(_iter_).
+        1. Let _iter_ be ? Call(_desc_.[[OpenMethod]], _desc_.[[Iterable]]).
+        1. If _iter_ is not an Object, throw a *TypeError* exception.
+        1. Let _iteratorRecord_ be ? GetIteratorDirect(_iter_).
         1. Let _innerAlive_ be *true*.
         1. Repeat, while _innerAlive_ is *true*,
           1. Let _innerValue_ be ? IteratorStepValue(_iteratorRecord_).
@@ -38,11 +33,7 @@ copyright: false
           1. Else,
             1. Let _completion_ be Completion(Yield(_innerValue_)).
             1. If _completion_ is an abrupt completion, then
-              1. Set _completion_ to Completion(IteratorClose(_iteratorRecord_, _completion_)).
-              1. For each element _trailingIter_ of _iteratorRecords_, do
-                1. If _trailingIter_ is an Iterator Record, then
-                  1. Set _completion_ to Completion(IteratorClose(_trailingIter_, _completion_)).
-              1. Return ? _completion_.
+              1. Return ? IteratorClose(_iteratorRecord_, _completion_).
       1. Return ReturnCompletion(*undefined*).
     1. Return CreateIteratorFromClosure(_closure_, *"Iterator Helper"*, %IteratorHelperPrototype%, « »).
   </emu-alg>
