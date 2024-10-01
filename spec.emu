@@ -19,8 +19,8 @@ copyright: false
       1. If _method_ is *undefined*, throw a *TypeError* exception.
       1. Append the Record { [[OpenMethod]]: _method_, [[Iterable]]: _item_ } to _iterables_.
     1. Let _closure_ be a new Abstract Closure with no parameters that captures _iterables_ and performs the following steps when called:
-      1. For each Record _iterables_ of _iterables_, do
-        1. Let _iter_ be ? Call(_iterables_.[[OpenMethod]], _iterables_.[[Iterable]]).
+      1. For each Record _iterable_ of _iterables_, do
+        1. Let _iter_ be ? Call(_iterable_.[[OpenMethod]], _iterable_.[[Iterable]]).
         1. If _iter_ is not an Object, throw a *TypeError* exception.
         1. Let _iteratorRecord_ be ? GetIteratorDirect(_iter_).
         1. Let _innerAlive_ be *true*.
