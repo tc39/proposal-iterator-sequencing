@@ -33,6 +33,8 @@ copyright: false
             1. If _completion_ is an abrupt completion, then
               1. Return ? IteratorClose(_iteratorRecord_, _completion_).
       1. Return ReturnCompletion(*undefined*).
-    1. Return CreateIteratorFromClosure(_closure_, *"Iterator Helper"*, %IteratorHelperPrototype%, « »).
+    1. Let _gen_ be CreateIteratorFromClosure(_closure_, *"Iterator Helper"*, %IteratorHelperPrototype%, « »).
+    1. Set _gen_.[[UnderlyingIterators]] to a new empty List.
+    1. Return _gen_.
   </emu-alg>
 </emu-clause>
