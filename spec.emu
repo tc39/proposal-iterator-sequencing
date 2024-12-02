@@ -25,11 +25,11 @@ copyright: false
         1. Let _iteratorRecord_ be ? GetIteratorDirect(_iter_).
         1. Let _innerAlive_ be *true*.
         1. Repeat, while _innerAlive_ is *true*,
-          1. Let _innerValue_ be ? IteratorStepValue(_iteratorRecord_).
-          1. If _innerValue_ is ~done~, then
+          1. Let _iteratorResult_ be ? IteratorStep(_iteratorRecord_).
+          1. If _iteratorResult_ is ~done~, then
             1. Set _innerAlive_ to *false*.
           1. Else,
-            1. Let _completion_ be Completion(Yield(_innerValue_)).
+            1. Let _completion_ be Completion(GeneratorYield(_iteratorResult_)).
             1. If _completion_ is an abrupt completion, then
               1. Return ? IteratorClose(_iteratorRecord_, _completion_).
       1. Return ReturnCompletion(*undefined*).
