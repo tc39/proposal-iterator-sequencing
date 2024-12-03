@@ -31,64 +31,46 @@ test('concat', async t => {
 });
 
 test('concat does not iterate strings', async t => {
-  let it = Iterator.concat("ab", "cd");
   assert.throws(
-    () => Array.from(it),
+    () => Iterator.concat("ab", "cd"),
     TypeError,
   );
 });
 
-test('concat bare iterators', async t => {
-  let count = 0;
-  const iter = {
-    next() {
-      if (count < 6) {
-        return { done: false, value: count++ };
-      } else {
-        return { done: true };
-      }
+test('re-uses IteratorResult objects', async t => {
+  const iterResult = { done: false, value: 0 };
+  const iter = Iterator.concat({
+    [Symbol.iterator]() {
+      return {
+        next() {
+          return iterResult;
+        },
+      };
     },
-  };
-  assert.deepEqual(
-    Array.from(Iterator.concat(
-      iter,
-      iter,
-    )),
-    [0, 1, 2, 3, 4, 5],
+  });
+  assert.equal(
+    iter.next(),
+    iterResult,
   );
 });
 
-test('closes later iterators', async t => {
+test('closes open iterators', async t => {
   await t.test('stopped between iterators', () => {
     let returned = [];
     let concatted = Iterator.concat(
       [0, 1],
       [2, 3],
       {
-        next() {
-          return { done: false, value: 'a' };
-        },
-        return() {
-          returned.push('a');
-          return { done: true, value: undefined };
-        },
-      },
-      {
-        next() {
-          return { done: false, value: 'b' };
-        },
-        return() {
-          returned.push('b');
-          return { done: true, value: undefined };
-        },
-      },
-      {
-        next() {
-          return { done: false, value: 'c' };
-        },
-        return() {
-          returned.push('c');
-          return { done: true, value: undefined };
+        [Symbol.iterator]() {
+          return {
+            next() {
+              return { done: false, value: 4 };
+            },
+            return() {
+              returned.push('a');
+              return { done: true, value: undefined };
+            },
+          };
         },
       },
     );
@@ -98,7 +80,7 @@ test('closes later iterators', async t => {
     assert.equal(concatted.next().value, 3);
     assert.deepEqual(returned, []);
     concatted.return();
-    assert.deepEqual(returned, ['a', 'b', 'c']);
+    assert.deepEqual(returned, []);
   });
 
   await t.test('stopped during iteration', () => {
@@ -107,30 +89,29 @@ test('closes later iterators', async t => {
       [0, 1],
       [2, 3],
       {
-        next() {
-          return { done: false, value: 4 };
-        },
-        return() {
-          returned.push('a');
-          return { done: true, value: undefined };
-        },
-      },
-      {
-        next() {
-          return { done: false, value: 'b' };
-        },
-        return() {
-          returned.push('b');
-          return { done: true, value: undefined };
+        [Symbol.iterator]() {
+          return {
+            next() {
+              return { done: false, value: 4 };
+            },
+            return() {
+              returned.push('a');
+              return { done: true, value: undefined };
+            },
+          };
         },
       },
       {
-        next() {
-          return { done: false, value: 'c' };
-        },
-        return() {
-          returned.push('c');
-          return { done: true, value: undefined };
+        [Symbol.iterator]() {
+          return {
+            next() {
+              return { done: false, value: 'b' };
+            },
+            return() {
+              returned.push('b');
+              return { done: true, value: undefined };
+            },
+          };
         },
       },
     );
@@ -141,6 +122,8 @@ test('closes later iterators', async t => {
     assert.equal(concatted.next().value, 4);
     assert.deepEqual(returned, []);
     concatted.return();
-    assert.deepEqual(returned, ['a', 'b', 'c']);
+    assert.deepEqual(returned, ['a']);
+    concatted.return();
+    assert.deepEqual(returned, ['a']);
   });
 });
