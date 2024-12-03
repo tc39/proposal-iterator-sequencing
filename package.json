@@ -21,6 +21,6 @@
   "devDependencies": {
     "@tc39/ecma262-biblio": "2.1.2775",
     "ecmarkup": "20.0.0",
-    "typescript": "5.2.2"
+    "typescript": "5.7.2"
   }
 }
