@@ -27,8 +27,7 @@ copyright: false
         1. Repeat, while _innerAlive_ is *true*,
           1. Let _iteratorResult_ be ? IteratorStep(_iteratorRecord_).
           1. If _iteratorResult_ is ~done~, then
-            1. Let _completion_ be Completion(IteratorValue(_iteratorResult_)).
-            1. If _completion_ is an abrupt completion, return Completion(_completion_).
+            1. Perform ? IteratorValue(_iteratorResult_).
             1. Set _innerAlive_ to *false*.
           1. Else,
             1. Let _completion_ be Completion(GeneratorYield(_iteratorResult_)).
