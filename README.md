@@ -59,12 +59,12 @@ let digits = Iterator.concat(lows, [4, 5], highs);
 For the (rare) case of infinite iterators of iterators, use [`Iterator.prototype.flatMap`](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-iterator.prototype.flatmap) with the identity function.
 
 ```js
-function* self_counting_sequence_helper() {
+function* selfCountingSequenceHelper() {
   for (let n = 1;; ++n) {
     yield Array(n).fill(n);
   }
 }
-let self_counting_sequence = self_counting_sequence_helper().flatMap(x => x)
+let selfCountingSequence = selfCountingSequenceHelper().flatMap(x => x)
 ```
 
 ## prior art
