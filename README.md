@@ -56,7 +56,7 @@ We should explore how to make this more ergonomic and functional.
 let digits = Iterator.concat(lows, [4, 5], highs);
 ```
 
-For the (rare) case of infinite iterators of iterators, use the existing [`flatMap`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator/flatMap) with the identity function.
+For the (rare) case of infinite iterators of iterators, use [`Iterator.prototype.flatMap`](https://tc39.es/ecma262/multipage/control-abstraction-objects.html#sec-iterator.prototype.flatmap) with the identity function.
 
 ```js
 function* self_counting_sequence_helper() {
