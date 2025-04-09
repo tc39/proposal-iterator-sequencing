@@ -56,15 +56,15 @@ We should explore how to make this more ergonomic and functional.
 let digits = Iterator.concat(lows, [4, 5], highs);
 ```
 
-For the (rare) case of infinite iterators of iterators, use `flatMap` with the identity function.
+For the (rare) case of infinite iterators of iterators, use the existing [`flatMap`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator/flatMap) with the identity function.
 
 ```js
-function* p() {
+function* self_counting_sequence_helper() {
   for (let n = 1;; ++n) {
     yield Array(n).fill(n);
   }
 }
-let repeatedNats = p().flatMap(x => x);
+let self_counting_sequence = self_counting_sequence_helper().flatMap(x => x)
 ```
 
 ## prior art
