@@ -25,8 +25,14 @@ copyright: false
         1. Let _iteratorRecord_ be ? GetIteratorDirect(_iter_).
         1. Let _innerAlive_ be *true*.
         1. Repeat, while _innerAlive_ is *true*,
-          1. Let _iteratorResult_ be ? IteratorStep(_iteratorRecord_).
-          1. If _iteratorResult_ is ~done~, then
+          1. Let _iteratorResult_ be ? IteratorNext(_iteratorRecord_).
+          1. Let _done_ be Completion(IteratorComplete(_iteratorResult_)).
+          1. If _done_ is a throw completion, then
+            1. Set _iteratorRecord_.[[Done]] to *true*.
+            1. Return ? _done_.
+          1. Set _done_ to ! _done_.
+          1. If _done_ is *true*, then
+            1. Set _iteratorRecord_.[[Done]] to *true*.
             1. Perform ? IteratorValue(_iteratorResult_).
             1. Set _innerAlive_ to *false*.
           1. Else,
