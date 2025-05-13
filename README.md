@@ -9,6 +9,7 @@ A TC39 proposal to create iterators by sequencing existing iterators.
 
 ## presentations to committee
 
+- [May 2025](https://docs.google.com/presentation/d/1XXAqt72dHIBQBvTRmR4UqOWbEcj_zqoS61NRMwriJ7s)
 - [October 2024](https://docs.google.com/presentation/d/1Z5Bz_4xpwRX7tjwmrMakrj3_II8Qy40fnAq-TrPdt0U)
 - [June 2024](https://docs.google.com/presentation/d/1gOs4UDAcaIF6Dc9z1qXus-ljizrRTSty5O-GbcM9NTs)
 - [January 2024](https://docs.google.com/presentation/d/1KhdGLNXOxWFEg3EhDDv9P-dkLxPKBTuI0EkEUc_fdNA)
